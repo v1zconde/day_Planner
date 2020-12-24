@@ -6,10 +6,13 @@ $(document).ready(function () {
   $("#currentDay").text(moment().format("MMMM Do YYYY"));
 var varTime = " AM";
 var textTime = 8;
-var realTime = 9;
+var realTime = 8;
+var day;
+var checked = false;
   //get current hour
+var storedDay = [];
  
- var currentHour = parseInt(moment().format('HH'))
+ var currentHour = parseInt(moment().format('HH'));
  console.log(currentHour);
 
 
@@ -17,44 +20,43 @@ init();
   //inside for each loop
   // get the value from the html for the current hour block
 
-  //var blockHour = parseInt($(this).attr("id").split("-")[1]);
+  
 function init(){
 
-createPage();
+    if (localStorage.getItem("day") === null) {
+        day = ["","","","","","","","",""];
+        localStorage.setItem("day", JSON.stringify(day));
+      }
 
+      storedDay = JSON.parse(localStorage.getItem("day"));
+    
+ createPage();
+
+// renderDay();
+ // Stringify and set "todos" key in localStorage to todos array
+//  localStorage.setItem("todos", JSON.stringify(todos));
 
 }
 
 $("textarea").each(function () {
-    var name = parseInt($(this).attr("value"));
-    console.log(name + "name");
-    console.log(currentHour + "currenthour");
-    
-
+    var name = parseInt($(this).attr("value"));   
+    console.log(name);
+   // var textValue = $(this).val();
     if (name < currentHour) {
-        $(this).addClass("past");
-        console.log($(this));
+        $(this).addClass("past");      
     }
-
-
     if (name > currentHour) {
-        $(this).addClass("future")
-        console.log("2");
+        $(this).addClass("future")      
     }
-
     if (name === currentHour) {
-        $(this).addClass("present")
-        console.log("3");
+        $(this).addClass("present")     
     }
-
-
 })
 
 function createPage(){
 
-
   for (i = 0; i < 9; i++) {
-
+    
     textTime++;
     realTime++;
 
@@ -70,7 +72,8 @@ function createPage(){
     var textHour = $("<textarea>");
     textHour.attr("value", realTime);
     textHour.addClass("col-md-10 description");
-    setColor(textHour, currentHour, realTime);
+    textHour.text(storedDay[i]);
+    
 
     var btnHour = $("<button>");
     btnHour.addClass("btn saveBtn col-md-1");
@@ -86,25 +89,20 @@ function createPage(){
 
   }
 }
-  //check and see if the currentHour > or < blockhour.
-  // add css classes according the time - past, future and current.
 
    $(".saveBtn").on("click", function() {
-
+       
             var btnText = ($(this).siblings("textarea").val());
+            
             console.log(btnText);
+
             var horaTest = $(this).val();
             console.log(horaTest);
-           
+          //  if (btnText !== "") {
+                storedDay[horaTest-9] = btnText;
+          //  }
+            localStorage.setItem("day", JSON.stringify(storedDay));
           
 });
-
-function setColor(){
-
-
-
-
-}
-
 
 });
