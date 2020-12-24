@@ -3,23 +3,15 @@ $(document).ready(function () {
   //put date on page
   // add css clases acording to the time
 
-  $("#currentDay").text(moment().format("MMMM Do YYYY"));
+$("#currentDay").text(moment().format("MMMM Do YYYY"));
+var currentHour = parseInt(moment().format('HH'));
 var varTime = " AM";
 var textTime = 8;
 var realTime = 8;
 var day;
-var checked = false;
-  //get current hour
 var storedDay = [];
- 
- var currentHour = parseInt(moment().format('HH'));
- console.log(currentHour);
-
 
 init();
-  //inside for each loop
-  // get the value from the html for the current hour block
-
   
 function init(){
 
@@ -31,10 +23,6 @@ function init(){
       storedDay = JSON.parse(localStorage.getItem("day"));
     
  createPage();
-
-// renderDay();
- // Stringify and set "todos" key in localStorage to todos array
-//  localStorage.setItem("todos", JSON.stringify(todos));
 
 }
 
@@ -93,16 +81,15 @@ function createPage(){
    $(".saveBtn").on("click", function() {
        
             var btnText = ($(this).siblings("textarea").val());
-            
             console.log(btnText);
-
             var horaTest = $(this).val();
             console.log(horaTest);
-          //  if (btnText !== "") {
-                storedDay[horaTest-9] = btnText;
-          //  }
+            storedDay[horaTest-9] = btnText;
             localStorage.setItem("day", JSON.stringify(storedDay));
-          
+
 });
+
+
+
 
 });
